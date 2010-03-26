@@ -1,5 +1,6 @@
 var chainRouter = require("pluginchain");
-var router = require("router");
+var router = require("router").createRouter();
+var response = require("response");
 var sys = require("sys");
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
@@ -111,6 +112,27 @@ chainRouter.addPlugin(chainRouter.errorChainMain,pe);
 
 //var fChain = chainRouter.createControllerChain(f);//sync
 //fChain(objA, objB);
+
+var url = "/articles/2005/03/";
+//var regexp = new RegExp('^/articles/(\\d*)/(\\d*)/$');
+var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
+//var regexp = new RegExp('^/\\w+/.*$');
+//var regexp = new RegExp("^/(.*)$");
+
+router.addRoute('GET', regexp, g);
+sys.puts(router.routes[0].handler.name);
+
+var req = {url: url, method:'GET'};
+
+var route = router.getRoute(req);
+sys.puts(JSON.stringify(route.matches));
+
+var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
+var res = response.create(fakeResponse);
+//sys.puts(JSON.stringify(res));
+//delete res.status;
+
+
 
 // TODO unify
 var gChain = chainRouter.doChain(g);//sync
