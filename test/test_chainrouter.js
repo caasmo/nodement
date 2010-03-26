@@ -114,7 +114,7 @@ chainRouter.addPlugin(chainRouter.errorChainMain,pe);
 //fChain(objA, objB);
 
 // TODO unify
-var gChain = chainRouter.createControllerChain(g);//sync
+var gChain = chainRouter.chainLoop(g);//sync
 gChain(objA, objB);
 
 sys.puts("make more...");
