@@ -26,11 +26,11 @@ function g(obj1, obj2, ndt){
 }
 
 function pa( obj1, obj2, ndt){ 
-  var h = this;
+  //var h = this;
   sys.puts("pa called");
   
-  sys.puts("exports:" + h.lipo.id);
-  h.lipo.id++;
+  //sys.puts("exports:" + h.lipo.id);
+ // h.lipo.id++;
   //var args = Array.prototype.slice.call(arguments,1);
   setTimeout(function(){
     obj1.name += " pa";
@@ -41,7 +41,7 @@ function pa( obj1, obj2, ndt){
 
 function pb( obj1, obj2, ndt){
   sys.puts("pb called");
-  sys.puts("exports:" + this.lipo.id); 
+  //sys.puts("exports:" + this.lipo.id); 
   setTimeout(function(){
     obj1.name += " pb";
     //next();
