@@ -1,5 +1,5 @@
 var chainRouter = require("pluginchain");
-var chainRouter = require("router");
+var router = require("router");
 var sys = require("sys");
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
@@ -113,7 +113,7 @@ chainRouter.addPlugin(chainRouter.errorChainMain,pe);
 //fChain(objA, objB);
 
 // TODO unify
-var gChain = chainRouter.chainLoop(g);//sync
+var gChain = chainRouter.doChain(g);//sync
 gChain(objA, objB);
 
 sys.puts("make more...");
