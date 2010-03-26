@@ -1,4 +1,5 @@
 var chainRouter = require("pluginchain");
+var chainRouter = require("router");
 var sys = require("sys");
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
@@ -97,8 +98,6 @@ function pf( obj1, obj2, ndt){
 chainRouter.createPluginContainer(f)
 chainRouter.addPlugin(f,pa,pb); // plugins api
 chainRouter.addPlugin(f,pa,pc, 'post');
-
-
 
 chainRouter.createPluginContainer(g)
 chainRouter.addPlugin(g,pa,pf); // plugins api
