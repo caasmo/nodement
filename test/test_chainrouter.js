@@ -5,27 +5,27 @@ var objB = {name: "pedro"};
 //var nodement ={id:0};
 
 
-function f(obj1, obj2, next){
+function f(obj1, obj2, ndt){
   sys.puts("f called");
   process.nextTick(function(){
     obj1.name += " f";
      //next(new Error());
      //next('end');
-     next();
+     ndt.next();
   });
 }
 
-function g(obj1, obj2, next){
+function g(obj1, obj2, ndt){
   sys.puts("g called");
   process.nextTick(function(){
     obj1.name += " g";
      //next(new Error());
      //next('end');
-     next();
+     ndt.next();
   });
 }
 
-function pa( obj1, obj2, next){ 
+function pa( obj1, obj2, ndt){ 
   var h = this;
   sys.puts("pa called");
   
@@ -34,58 +34,58 @@ function pa( obj1, obj2, next){
   //var args = Array.prototype.slice.call(arguments,1);
   setTimeout(function(){
     obj1.name += " pa";
-    next();
+    ndt.next();
   }, 1000); 
   sys.puts("pa return");
 }
 
-function pb( obj1, obj2, next){
+function pb( obj1, obj2, ndt){
   sys.puts("pb called");
   sys.puts("exports:" + this.lipo.id); 
   setTimeout(function(){
     obj1.name += " pb";
     //next();
-    next();
+    ndt.next();
   }, 1000); 
   sys.puts("pb return");
 }
 
-function pe( obj1, obj2, next){
+function pe( obj1, obj2, ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
     obj1.name += " pe";
     
-    next();
+    ndt.next();
   }, 1000); 
   sys.puts("Error pe return");
 }
 
-function pc( obj1, obj2, next){
+function pc( obj1, obj2, ndt){
   sys.puts("pc called");
   setTimeout(function(){
     obj1.name += " pc";
     
-    next(new Error);
+    ndt.next(new Error);
   }, 1000); 
   sys.puts("pc return");
 }
 
-function pd( obj1, obj2, next){
+function pd( obj1, obj2, ndt){
   sys.puts("pd called: extern: redirecting to chain");
   setTimeout(function(){
     obj1.name += " pd";
     
-    next(f);
+    ndt.next(f);
   }, 1000); 
   sys.puts("pd return");
 }
 
-function pf( obj1, obj2, next){
+function pf( obj1, obj2, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
     obj1.name += " pf";
     
-    next('pd');
+    ndt.next('pd');
   }, 1000); 
   sys.puts("pf return");
 }
