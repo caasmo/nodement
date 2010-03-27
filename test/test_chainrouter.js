@@ -66,7 +66,7 @@ function pc( obj1, obj2, ndt){
   sys.puts("pc called");
   setTimeout(function(){
     obj1.name += " pc";
-    
+    sys.puts(JSON.stringify(ndt.route.matches));
     ndt.next(new Error);
   }, 1000); 
   sys.puts("pc return");
@@ -120,12 +120,18 @@ var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
 //var regexp = new RegExp("^/(.*)$");
 
 router.addRoute('GET', regexp, g);
-sys.puts(router.routes[0].handler.name);
+//sys.puts(router.routes[0].handler.name);
 
 var req = {url: url, method:'GET'};
 
 var route = router.getRoute(req);
-sys.puts(JSON.stringify(route.matches));
+
+// todo seal
+
+chainRouter.ndt.route = route;
+sys.puts(typeof ndt);
+//chainRouter.ndt.route = route;
+
 
 var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
 var res = response.create(fakeResponse);
@@ -135,8 +141,9 @@ var res = response.create(fakeResponse);
 
 
 // TODO unify
-var gChain = chainRouter.doChain(g);//sync
-gChain(objA, objB);
+// route
+chainRouter.doChain(route.handler)(req, res);//sync
+//gChain(objA, objB);
 
 sys.puts("make more...");
 
