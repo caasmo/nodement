@@ -86,7 +86,6 @@ function pf( obj1, obj2, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
     obj1.name += " pf";
-    
     ndt.next('pd');
   }, 1000); 
   sys.puts("pf return");
