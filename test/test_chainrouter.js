@@ -1,6 +1,11 @@
+/*
 var chainRouter = require("pluginchain");
 var router = require("router").createRouter();
+*/
 var response = require("response");
+
+var ndmt = require("nodement").nodement();
+
 var sys = require("sys");
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
@@ -94,6 +99,13 @@ function pf( obj1, obj2, ndt){
 
 
 /* EXEC*/
+// TODO one pro server
+// dont save in the function, in the chain router.
+var chainRouter = ndmt.chainRouter;
+// chains
+
+var router = ndmt.router;
+
 
 chainRouter.createPluginContainer(f)
 chainRouter.addPlugin(f,pa,pb); // plugins api
@@ -125,9 +137,9 @@ var req = {url: url, method:'GET'};
 
 var route = router.getRoute(req);
 
-// todo seal
+var chRouter = chainRouter.chainer();
 
-chainRouter.ndt.route = route;
+chRouter.ndt.route = route;
 sys.puts(typeof ndt);
 //chainRouter.ndt.route = route;
 
@@ -141,7 +153,9 @@ var res = response.create(fakeResponse);
 
 // TODO unify
 // route
-chainRouter.doChain(route.handler)(req, res);//sync
+
+
+chRouter.doChain(route.handler)(req, res);
 //gChain(objA, objB);
 
 sys.puts("make more...");
