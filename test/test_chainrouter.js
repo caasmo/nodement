@@ -82,7 +82,7 @@ function pd( obj1, obj2, ndt){
   setTimeout(function(){
     obj1.name += " pd";
     
-    ndt.next(f);
+    ndt.next('route2');
   }, 1000); 
   sys.puts("pd return");
 }
@@ -91,10 +91,12 @@ function pf( obj1, obj2, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
     obj1.name += " pf";
-    ndt.next('pd');
+    ndt.next('this.pd');
   }, 1000); 
   sys.puts("pf return");
 }
+
+
 
 
 
@@ -106,20 +108,22 @@ var chainRouter = ndmt.chainRouter;
 
 var router = ndmt.router;
 
+/*
 
-chainRouter.createPluginContainer(f)
-chainRouter.addPlugin(f,pa,pb); // plugins api
-chainRouter.addPlugin(f,pa,pc, 'post');
 
+
+*/
+/*
 chainRouter.createPluginContainer(g)
 chainRouter.addPlugin(g,pa,pf); // plugins api
 chainRouter.addPlugin(g,pd,pb, 'post');
+*/
 //sys.puts("g plugins");
 //sys.puts(g.plugins.post[0].toString());
 
 // ???? 
 // add a pre plugin to error chain
-chainRouter.addPlugin(chainRouter.errorChainMain,pe);
+//chainRouter.addPlugin(chainRouter.errorChainMain,pe);
 
 //var fChain = chainRouter.createControllerChain(f);//sync
 //fChain(objA, objB);
@@ -127,35 +131,39 @@ chainRouter.addPlugin(chainRouter.errorChainMain,pe);
 var url = "/articles/2005/03/";
 //var regexp = new RegExp('^/articles/(\\d*)/(\\d*)/$');
 var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
+var regexp2 = /^\/blogs\/(\d*)\/(\d*)\/$/;
+var regexp3 = /^\/error\/(\d*)\/(\d*)\/$/;
+
 //var regexp = new RegExp('^/\\w+/.*$');
 //var regexp = new RegExp("^/(.*)$");
 
-router.addRoute('GET', regexp, g);
-//sys.puts(router.routes[0].handler.name);
+var route =  router.addRoute('route', 'GET', regexp, g);
+//sys.puts(JSON.stringify(route));
+// TODO accept name or object as 1 argument
+router.addPlugin(route, pa,pf); // plugins api
+router.addPlugin(route,pd,pb, 'post');
 
+var route2 =  router.addRoute('route2','GET', regexp2, f);
+router.addPlugin(route2, pa,pb); // plugins api
+router.addPlugin(route2,pa,pc, 'post');
+
+//sys.puts(JSON.stringify(router.routes));
+//var routeErr =  router.addRoute('err', 'GET', regexp3, errorChainMain);
+router.addPlugin('errorRoute', pe, 'post');
+//var rout = router.routes;
+//sys.puts(JSON.stringify(router.routes));
+//sys.puts(JSON.stringify(router.routes['errorChain'].plugins.post[0].name + 'hiii'));
 var req = {url: url, method:'GET'};
 
 var route = router.getRoute(req);
-
-var chRouter = chainRouter.chainer();
-
-chRouter.ndt.route = route;
-sys.puts(typeof ndt);
-//chainRouter.ndt.route = route;
-
+//sys.puts(JSON.stringify(route.name + 'ooooo'));
+chainRouter.ndt.route = route;
+//sys.puts(typeof ndt);
 
 var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
 var res = response.create(fakeResponse);
-//sys.puts(JSON.stringify(res));
-//delete res.status;
 
-
-
-// TODO unify
-// route
-
-
-chRouter.doChain(route.handler)(req, res);
+chainRouter.doChain(route)(req, res);
 //gChain(objA, objB);
 
 sys.puts("make more...");
