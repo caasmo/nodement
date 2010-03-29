@@ -1,16 +1,10 @@
-/*
-var chainRouter = require("pluginchain");
-var router = require("router").createRouter();
-*/
-var response = require("response");
 
+var response = require("response");
 var ndmt = require("nodement").nodement();
 
 var sys = require("sys");
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
-//var nodement ={id:0};
-
 
 function f(obj1, obj2, ndt){
   sys.puts("f called");
@@ -96,37 +90,13 @@ function pf( obj1, obj2, ndt){
   sys.puts("pf return");
 }
 
-
-
-
-
-/* EXEC*/
 // TODO one pro server
 // dont save in the function, in the chain router.
 var chainRouter = ndmt.chainRouter;
-// chains
+
 
 var router = ndmt.router;
 
-/*
-
-
-
-*/
-/*
-chainRouter.createPluginContainer(g)
-chainRouter.addPlugin(g,pa,pf); // plugins api
-chainRouter.addPlugin(g,pd,pb, 'post');
-*/
-//sys.puts("g plugins");
-//sys.puts(g.plugins.post[0].toString());
-
-// ???? 
-// add a pre plugin to error chain
-//chainRouter.addPlugin(chainRouter.errorChainMain,pe);
-
-//var fChain = chainRouter.createControllerChain(f);//sync
-//fChain(objA, objB);
 
 var url = "/articles/2005/03/";
 //var regexp = new RegExp('^/articles/(\\d*)/(\\d*)/$');
@@ -134,11 +104,9 @@ var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
 var regexp2 = /^\/blogs\/(\d*)\/(\d*)\/$/;
 var regexp3 = /^\/error\/(\d*)\/(\d*)\/$/;
 
-//var regexp = new RegExp('^/\\w+/.*$');
-//var regexp = new RegExp("^/(.*)$");
 
 var route =  router.addRoute('route', 'GET', regexp, g);
-//sys.puts(JSON.stringify(route));
+
 // TODO accept name or object as 1 argument
 router.addPlugin(route, pa,pf); // plugins api
 router.addPlugin(route,pd,pb, 'post');
@@ -148,85 +116,17 @@ router.addPlugin(route2, pa,pb); // plugins api
 router.addPlugin(route2,pa,pc, 'post');
 
 //sys.puts(JSON.stringify(router.routes));
-//var routeErr =  router.addRoute('err', 'GET', regexp3, errorChainMain);
+
 router.addPlugin('errorRoute', pe, 'post');
-//var rout = router.routes;
-//sys.puts(JSON.stringify(router.routes));
-//sys.puts(JSON.stringify(router.routes['errorChain'].plugins.post[0].name + 'hiii'));
 var req = {url: url, method:'GET'};
-
 var route = router.getRoute(req);
-//sys.puts(JSON.stringify(route.name + 'ooooo'));
 chainRouter.ndt.route = route;
-//sys.puts(typeof ndt);
-
 var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
 var res = response.create(fakeResponse);
 
 chainRouter.doChain(route)(req, res);
-//gChain(objA, objB);
 
 sys.puts("make more...");
 
-/* general plugins
-route, hat list all controllers, get route, get controller, add plugin
 
-route is bindung set of request ->controller
-
-routes is a list of controllers;
-a controller hat plugin, helpers
-
-plugin is piece of code exeecuted before or after
-add plugins to controllers 
-async??
-we want sync plugins,-> no!
-if plugin is async, return not finish
-add callback, next
-only global share ist args: req, res
-// redirectses 
-// next mejor para chain
-// cortar la cadena. Si, 
-// reanudar tambien 
-
-intern Api chainLinks === plugin extern Api
-// desactivar  cadena ? para redirecciones
-
-la cadena se corta si no das el next
-// el resultado esta en el args, como se entrega 
-// metodo chain.end 
-
-
-routr mechanimsh async 
-
-add plugings
-// helpers in res
-*/
-
-/*
-//Routes request->chain
-// chain element plugin
-// error of the last, reference to next
-// only change args
-// good 
-// special plugins? central plugin, ja
-// redirection to function chain,
-// redirection , return tio chain
-// robust handle of signature.
-// general.plugins atttached to routes.
-
-function f(err, args, next){
-  if (err) throw new Error(); 
-  // do intensiv
-  do(args, function(){
-     sys.puts("f called");
-     next(args);
-  });
-  
-  // the callback oben
-}
-*/
-// colector handle with error. a default is
-//need I callback in plugins SYNC?
-
-//need i to loop
 
