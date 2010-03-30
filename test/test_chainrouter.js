@@ -9,7 +9,7 @@ var objB = {name: "pedro"};
 function f(obj1, res, ndt){
   sys.puts("f called");
   process.nextTick(function(){
-    res.msg += " f";
+    res.msg += res.id + " f\n";
      //next(new Error());
      //next('end');
      ndt.next();
@@ -19,7 +19,7 @@ function f(obj1, res, ndt){
 function g(obj1, res, ndt){
   sys.puts("g called");
   process.nextTick(function(){
-    res.msg += " g";
+    res.msg += res.id +" g";
      //next(new Error());
      //next('end');
      ndt.next();
@@ -34,7 +34,7 @@ function pa( obj1, res, ndt){
  // h.lipo.id++;
   //var args = Array.prototype.slice.call(arguments,1);
   setTimeout(function(){
-    res.msg += " pa";
+    res.msg += res.id +" pa";
     ndt.next();
   }, 1000); 
   sys.puts("pa return");
@@ -44,7 +44,7 @@ function pb( obj1, res, ndt){
   sys.puts("pb called");
   //sys.puts("exports:" + this.lipo.id); 
   setTimeout(function(){
-    res.msg += " pb";
+    res.msg += res.id +" pb";
     //next();
     ndt.next();
   }, 1000); 
@@ -54,7 +54,7 @@ function pb( obj1, res, ndt){
 function pe( obj1, res, ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
-    res.msg += " pe";
+    res.msg += res.id +" pe";
     sys.puts("closing---bye");
     ndt.next();
   }, 1000); 
@@ -64,7 +64,7 @@ function pe( obj1, res, ndt){
 function pc( obj1, res, ndt){
   sys.puts("pc called");
   setTimeout(function(){
-    res.msg += " pc";
+    res.msg += res.id +" pc";
     //sys.puts(JSON.stringify(ndt.route.matches));
     ndt.next(new Error);
   }, 1000); 
@@ -74,7 +74,7 @@ function pc( obj1, res, ndt){
 function pd( obj1,res, ndt){
   sys.puts("pd called: extern: redirecting to chain");
   setTimeout(function(){
-    res.msg += " pd";
+    res.msg += res.id +" pd";
     
     ndt.next('route2');
   }, 1000); 
@@ -84,7 +84,7 @@ function pd( obj1,res, ndt){
 function pf( obj1, res, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
-   res.msg += " pf";
+   res.msg += res.id +" pf";
     ndt.next('this.pd');
   }, 1000); 
   sys.puts("pf return");
