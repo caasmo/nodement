@@ -1,6 +1,6 @@
 var sys = require("sys");
 var response = require("response");
-var ndmt = require("nodement").nodement;
+var ndmt = require("nodement").nodement();
 
 
 var objA = {name: "lipo"};
@@ -90,16 +90,8 @@ function pf( obj1, res, ndt){
   sys.puts("pf return");
 }
 
-// TODO one pro server
-// dont save in the function, in the chain router.
-var chainRouter = ndmt.chainRouter;
-
-
 var router = ndmt.router;
 
-
-//var url = "/articles/2005/03/";
-//var regexp = new RegExp('^/articles/(\\d*)/(\\d*)/$');
 var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
 var regexp2 = /^\/blogs\/(\d*)\/(\d*)\/$/;
 var regexp3 = /^\/error\/(\d*)\/(\d*)\/$/;
@@ -115,18 +107,7 @@ var route2 =  router.addRoute('route2','GET', regexp2, f);
 router.addPlugin(route2, pa,pb); // plugins api
 router.addPlugin(route2,pa,pc, 'post');
 
-//sys.puts(JSON.stringify(router.routes));
-
 router.addPlugin('errorRoute', pe, 'post');
-
-/*
-var req = {url: url, method:'GET'};
-var route = router.getRoute(req);
-//chainRouter.ndt.route = route;
-var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
-var res = response.create(fakeResponse);
-chainRouter.doChain(route)(req, res);
-*/
 
 ndmt.listen(8080);
 sys.puts("make more...");
