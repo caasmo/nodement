@@ -1,32 +1,32 @@
-
-var response = require("response");
-var ndmt = require("nodement").nodement();
-
 var sys = require("sys");
+var response = require("response");
+var ndmt = require("nodement").nodement;
+
+
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
 
-function f(obj1, obj2, ndt){
+function f(obj1, res, ndt){
   sys.puts("f called");
   process.nextTick(function(){
-    obj1.name += " f";
+    res.msg += " f";
      //next(new Error());
      //next('end');
      ndt.next();
   });
 }
 
-function g(obj1, obj2, ndt){
+function g(obj1, res, ndt){
   sys.puts("g called");
   process.nextTick(function(){
-    obj1.name += " g";
+    res.msg += " g";
      //next(new Error());
      //next('end');
      ndt.next();
   });
 }
 
-function pa( obj1, obj2, ndt){ 
+function pa( obj1, res, ndt){ 
   //var h = this;
   sys.puts("pa called");
   
@@ -34,57 +34,57 @@ function pa( obj1, obj2, ndt){
  // h.lipo.id++;
   //var args = Array.prototype.slice.call(arguments,1);
   setTimeout(function(){
-    obj1.name += " pa";
+    res.msg += " pa";
     ndt.next();
   }, 1000); 
   sys.puts("pa return");
 }
 
-function pb( obj1, obj2, ndt){
+function pb( obj1, res, ndt){
   sys.puts("pb called");
   //sys.puts("exports:" + this.lipo.id); 
   setTimeout(function(){
-    obj1.name += " pb";
+    res.msg += " pb";
     //next();
     ndt.next();
   }, 1000); 
   sys.puts("pb return");
 }
 
-function pe( obj1, obj2, ndt){
+function pe( obj1, res, ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
-    obj1.name += " pe";
-    
+    res.msg += " pe";
+    sys.puts("closing---bye");
     ndt.next();
   }, 1000); 
   sys.puts("Error pe return");
 }
 
-function pc( obj1, obj2, ndt){
+function pc( obj1, res, ndt){
   sys.puts("pc called");
   setTimeout(function(){
-    obj1.name += " pc";
-    sys.puts(JSON.stringify(ndt.route.matches));
+    res.msg += " pc";
+    //sys.puts(JSON.stringify(ndt.route.matches));
     ndt.next(new Error);
   }, 1000); 
   sys.puts("pc return");
 }
 
-function pd( obj1, obj2, ndt){
+function pd( obj1,res, ndt){
   sys.puts("pd called: extern: redirecting to chain");
   setTimeout(function(){
-    obj1.name += " pd";
+    res.msg += " pd";
     
     ndt.next('route2');
   }, 1000); 
   sys.puts("pd return");
 }
 
-function pf( obj1, obj2, ndt){
+function pf( obj1, res, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
-    obj1.name += " pf";
+   res.msg += " pf";
     ndt.next('this.pd');
   }, 1000); 
   sys.puts("pf return");
@@ -98,7 +98,7 @@ var chainRouter = ndmt.chainRouter;
 var router = ndmt.router;
 
 
-var url = "/articles/2005/03/";
+//var url = "/articles/2005/03/";
 //var regexp = new RegExp('^/articles/(\\d*)/(\\d*)/$');
 var regexp = /^\/articles\/(\d*)\/(\d*)\/$/;
 var regexp2 = /^\/blogs\/(\d*)\/(\d*)\/$/;
@@ -118,14 +118,17 @@ router.addPlugin(route2,pa,pc, 'post');
 //sys.puts(JSON.stringify(router.routes));
 
 router.addPlugin('errorRoute', pe, 'post');
+
+/*
 var req = {url: url, method:'GET'};
 var route = router.getRoute(req);
-chainRouter.ndt.route = route;
+//chainRouter.ndt.route = route;
 var fakeResponse = {writeHead: function(){}, write:function(){sys.puts('hola')}, close:function(){}}
 var res = response.create(fakeResponse);
-
 chainRouter.doChain(route)(req, res);
+*/
 
+ndmt.listen(8080);
 sys.puts("make more...");
 
 
