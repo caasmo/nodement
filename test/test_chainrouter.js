@@ -9,7 +9,7 @@ var objB = {name: "pedro"};
 function f(obj1, res, ndt){
   sys.puts("f called");
   process.nextTick(function(){
-    res.msg += res.id + " f\n";
+    res.body += res.id + " f\n";
      //next(new Error());
      //next('end');
      ndt.next();
@@ -19,22 +19,19 @@ function f(obj1, res, ndt){
 function g(obj1, res, ndt){
   sys.puts("g called");
   process.nextTick(function(){
-    res.msg += res.id +" g";
+    res.body += res.id +" g";
      //next(new Error());
      //next('end');
      ndt.next();
   });
 }
 
-function pa( obj1, res, ndt){ 
-  //var h = this;
+function pa( req, res, ndt){ 
   sys.puts("pa called");
-  
-  //sys.puts("exports:" + h.lipo.id);
- // h.lipo.id++;
-  //var args = Array.prototype.slice.call(arguments,1);
+  sys.puts(JSON.stringify(res.matches));
+
   setTimeout(function(){
-    res.msg += res.id +" pa";
+    res.body += res.id +" pa";
     ndt.next();
   }, 1000); 
   sys.puts("pa return");
@@ -44,7 +41,7 @@ function pb( obj1, res, ndt){
   sys.puts("pb called");
   //sys.puts("exports:" + this.lipo.id); 
   setTimeout(function(){
-    res.msg += res.id +" pb";
+    res.body += res.id +" pb";
     //next();
     ndt.next();
   }, 1000); 
@@ -54,7 +51,7 @@ function pb( obj1, res, ndt){
 function pe( obj1, res, ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
-    res.msg += res.id +" pe";
+    res.body += res.id +" pe";
     sys.puts("closing---bye");
     ndt.next();
   }, 1000); 
@@ -64,7 +61,7 @@ function pe( obj1, res, ndt){
 function pc( obj1, res, ndt){
   sys.puts("pc called");
   setTimeout(function(){
-    res.msg += res.id +" pc";
+    res.body += res.id +" pc";
     //sys.puts(JSON.stringify(ndt.route.matches));
     ndt.next(new Error);
   }, 1000); 
@@ -74,7 +71,7 @@ function pc( obj1, res, ndt){
 function pd( obj1,res, ndt){
   sys.puts("pd called: extern: redirecting to chain");
   setTimeout(function(){
-    res.msg += res.id +" pd";
+    res.body += res.id +" pd";
     
     ndt.next('route2');
   }, 1000); 
@@ -84,7 +81,7 @@ function pd( obj1,res, ndt){
 function pf( obj1, res, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
-   res.msg += res.id +" pf";
+   res.body += res.id +" pf";
     ndt.next('this.pd');
   }, 1000); 
   sys.puts("pf return");
@@ -108,6 +105,9 @@ router.addPlugin(route2, pa,pb); // plugins api
 router.addPlugin(route2,pa,pc, 'post');
 
 router.addPlugin('errorRoute', pe, 'post');
+// add plugin to all routes route
+
+
 
 ndmt.listen(8080);
 sys.puts("make more...");
