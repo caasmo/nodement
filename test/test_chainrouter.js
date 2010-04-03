@@ -1,6 +1,7 @@
 var sys = require("sys");
 var response = require("response");
 var ndmt = require("nodement").nodement();
+var session = require("session");
 
 
 var objA = {name: "lipo"};
@@ -8,7 +9,10 @@ var objB = {name: "pedro"};
 
 function f(obj1, res, ndt){
   sys.puts("f called");
+  this.session.h();
+  sys.puts("h returned");
   process.nextTick(function(){
+    sys.puts("f callback called");
     res.body += res.id + " f\n";
      //next(new Error());
      //next('end');
@@ -107,7 +111,8 @@ router.addPlugin(route2,pa,pc, 'post');
 router.addPlugin('errorRoute', pe, 'post');
 // add plugin to all routes route
 
-
+var route3 =  router.addRoute('route3','GET', regexp3, f);
+router.addPluginModule(route3, session);
 
 ndmt.listen(8080);
 sys.puts("make more...");
