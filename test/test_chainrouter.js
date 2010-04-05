@@ -9,8 +9,8 @@ var objB = {name: "pedro"};
 
 function f(obj1, res, ndt){
   sys.puts("f called");
-  this.session.h();
-  sys.puts("h returned");
+  //this.session.h();
+  //sys.puts("h returned");
   process.nextTick(function(){
     sys.puts("f callback called");
     res.body += res.id + " f\n";
