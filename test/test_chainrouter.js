@@ -112,7 +112,7 @@ router.addPlugin('errorRoute', pe, 'post');
 // add plugin to all routes route
 
 var route3 =  router.addRoute('route3','GET', regexp3, f);
-router.addPluginModule(route3, session);
+router.addModule(route3, session);
 
 ndmt.listen(8080);
 sys.puts("make more...");
