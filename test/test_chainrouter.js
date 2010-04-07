@@ -100,7 +100,7 @@ function f(obj1, res, ndt){
 
 function pg( req, res, ndt){
   sys.puts("pg called:");
-  var si = this.session.getSid();
+  var si = ndt.session.getSid();
   sys.puts(si + '###');
   
   ndt.session.get("yo", function(err, reply){
