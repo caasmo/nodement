@@ -19,7 +19,7 @@ function g(ndt){
   });
 }
 
-function pa(  ndt){ 
+function pa(ndt){ 
   sys.puts("pa called");
   sys.puts(JSON.stringify(res.matches));
 
@@ -30,7 +30,7 @@ function pa(  ndt){
   sys.puts("pa return");
 }
 
-function pb( ndt){
+function pb(ndt){
   sys.puts("pb called");
   
   setTimeout(function(){
@@ -41,7 +41,7 @@ function pb( ndt){
   sys.puts("pb return");
 }
 
-function pe(  ndt){
+function pe(ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
     res.body += res.id +" pe";
@@ -116,7 +116,7 @@ function pg( ndt){
   sys.puts("pg return");
 }
 
-function ph( ndt){
+function ph(ndt){
   sys.puts("ph called:");
   setTimeout(function(){
     ndt.next();
