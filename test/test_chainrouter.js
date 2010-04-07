@@ -89,8 +89,6 @@ function f( ndt){
   }, 1000); 
   */
   ndt.session.set("yo", "guay", function(err, reply){
-  
-  
     sys.puts("f callback called");
     ndt.response.body += ndt.response.id + " f\n";
     ndt.next();
