@@ -81,7 +81,7 @@ function pf(ndt){
 }
 
 function f( ndt){
-  sys.puts(sys.inspect(ndt.__proto__));
+  //sys.puts(sys.inspect(ndt.__proto__));
 /*
   setTimeout(function(){
    res.body += res.id +" pf";
