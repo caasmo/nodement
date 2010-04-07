@@ -3,22 +3,11 @@ var response = require("response");
 var ndmt = require("nodement").nodement();
 var session = require("session");
 
-
+/*
 var objA = {name: "lipo"};
 var objB = {name: "pedro"};
+*/
 
-function f(obj1, res, ndt){
-  sys.puts("f called");
-  //this.session.h();
-  //sys.puts("h returned");
-  process.nextTick(function(){
-    sys.puts("f callback called");
-    res.body += res.id + " f\n";
-     //next(new Error());
-     //next('end');
-     ndt.next();
-  });
-}
 
 function g(obj1, res, ndt){
   sys.puts("g called");
@@ -43,7 +32,7 @@ function pa( req, res, ndt){
 
 function pb( obj1, res, ndt){
   sys.puts("pb called");
-  //sys.puts("exports:" + this.lipo.id); 
+  
   setTimeout(function(){
     res.body += res.id +" pb";
     //next();
@@ -82,13 +71,57 @@ function pd( obj1,res, ndt){
   sys.puts("pd return");
 }
 
-function pf( obj1, res, ndt){
+function pf( req, res, ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
    res.body += res.id +" pf";
     ndt.next('this.pd');
   }, 1000); 
   sys.puts("pf return");
+}
+
+function f(obj1, res, ndt){
+  sys.puts(sys.inspect(ndt.__proto__));
+/*
+  setTimeout(function(){
+   res.body += res.id +" pf";
+    ndt.next();
+  }, 1000); 
+  */
+  ndt.session.set("yo", "guay", function(err, reply){
+  
+  
+    sys.puts("f callback called");
+    res.body += res.id + " f\n";
+    ndt.next();
+  });
+
+}
+
+function pg( req, res, ndt){
+  sys.puts("pg called:");
+  var si = this.session.getSid();
+  sys.puts(si + '###');
+  
+  ndt.session.get("yo", function(err, reply){
+    sys.puts("the reply from session.set is :" + reply)
+  
+    ndt.next();
+  });
+  /*
+  setTimeout(function(){
+   res.body += res.id +" pf";
+    ndt.next();
+  }, 1000);*/
+  sys.puts("pg return");
+}
+
+function ph( req, res, ndt){
+  sys.puts("ph called:");
+  setTimeout(function(){
+    ndt.next();
+  }, 5000); 
+  sys.puts("ph return");
 }
 
 var router = ndmt.router;
@@ -102,17 +135,18 @@ var route =  router.addRoute('route', 'GET', regexp, g);
 
 // TODO accept name or object as 1 argument
 router.addPlugin(route, pa,pf); // plugins api
-router.addPlugin(route,pd,pb, 'post');
+router.addPlugin(route,pd,pb, 'after');
 
 var route2 =  router.addRoute('route2','GET', regexp2, f);
 router.addPlugin(route2, pa,pb); // plugins api
-router.addPlugin(route2,pa,pc, 'post');
+router.addPlugin(route2,pa,pc, 'after');
 
-router.addPlugin('errorRoute', pe, 'post');
+router.addPlugin('errorRoute', pe, 'after');
 // add plugin to all routes route
 
 var route3 =  router.addRoute('route3','GET', regexp3, f);
-router.addModule(route3, session);
+router.addPlugin(route3, ph, pg, 'after');
+//sys.puts(sys.inspect(route3));
 
 ndmt.listen(8080);
 sys.puts("make more...");
