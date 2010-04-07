@@ -9,7 +9,7 @@ var objB = {name: "pedro"};
 */
 
 
-function g(obj1, res, ndt){
+function g(ndt){
   sys.puts("g called");
   process.nextTick(function(){
     res.body += res.id +" g";
@@ -19,7 +19,7 @@ function g(obj1, res, ndt){
   });
 }
 
-function pa( req, res, ndt){ 
+function pa(  ndt){ 
   sys.puts("pa called");
   sys.puts(JSON.stringify(res.matches));
 
@@ -30,7 +30,7 @@ function pa( req, res, ndt){
   sys.puts("pa return");
 }
 
-function pb( obj1, res, ndt){
+function pb( ndt){
   sys.puts("pb called");
   
   setTimeout(function(){
@@ -41,7 +41,7 @@ function pb( obj1, res, ndt){
   sys.puts("pb return");
 }
 
-function pe( obj1, res, ndt){
+function pe(  ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
     res.body += res.id +" pe";
@@ -51,7 +51,7 @@ function pe( obj1, res, ndt){
   sys.puts("Error pe return");
 }
 
-function pc( obj1, res, ndt){
+function pc(  ndt){
   sys.puts("pc called");
   setTimeout(function(){
     res.body += res.id +" pc";
@@ -61,7 +61,7 @@ function pc( obj1, res, ndt){
   sys.puts("pc return");
 }
 
-function pd( obj1,res, ndt){
+function pd( ndt){
   sys.puts("pd called: extern: redirecting to chain");
   setTimeout(function(){
     res.body += res.id +" pd";
@@ -71,7 +71,7 @@ function pd( obj1,res, ndt){
   sys.puts("pd return");
 }
 
-function pf( req, res, ndt){
+function pf(ndt){
   sys.puts("pf called: inner redirecting to plugin");
   setTimeout(function(){
    res.body += res.id +" pf";
