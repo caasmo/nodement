@@ -80,7 +80,7 @@ function pf( req, res, ndt){
   sys.puts("pf return");
 }
 
-function f(obj1, res, ndt){
+function f( ndt){
   sys.puts(sys.inspect(ndt.__proto__));
 /*
   setTimeout(function(){
@@ -92,14 +92,16 @@ function f(obj1, res, ndt){
   
   
     sys.puts("f callback called");
-    res.body += res.id + " f\n";
+    ndt.response.body += ndt.response.id + " f\n";
     ndt.next();
   });
 
 }
 
-function pg( req, res, ndt){
+function pg( ndt){
+  
   sys.puts("pg called:");
+  sys.puts(sys.inspect(ndt));
   var si = ndt.session.getSid();
   sys.puts(si + '###');
   
@@ -116,7 +118,7 @@ function pg( req, res, ndt){
   sys.puts("pg return");
 }
 
-function ph( req, res, ndt){
+function ph( ndt){
   sys.puts("ph called:");
   setTimeout(function(){
     ndt.next();
