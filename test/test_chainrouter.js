@@ -44,7 +44,7 @@ function pb(ndt){
 function pe(ndt){
   sys.puts("Error pe called");
   setTimeout(function(){
-    res.body += res.id +" pe";
+    
     sys.puts("closing---bye");
     ndt.next();
   }, 1000); 
@@ -82,13 +82,9 @@ function pf(ndt){
 
 function f( ndt){
   //sys.puts(sys.inspect(ndt.__proto__));
-/*
-  setTimeout(function(){
-   res.body += res.id +" pf";
-    ndt.next();
-  }, 1000); 
-  */
+
   ndt.session.set("yo", "guay", function(err, reply){
+    if(err) ndt.next("errorRoute");
     sys.puts("f callback called");
     ndt.response.body += ndt.response.id + " f\n";
     ndt.next();
@@ -99,13 +95,13 @@ function f( ndt){
 function pg( ndt){
   
   sys.puts("pg called:");
-  sys.puts(sys.inspect(ndt));
+  //sys.puts(sys.inspect(ndt.request, true, null));
   var si = ndt.session.getSid();
   sys.puts(si + '###');
   
   ndt.session.get("yo", function(err, reply){
+    if(err) sys.puts(err.message);
     sys.puts("the reply from session.set is :" + reply)
-  
     ndt.next();
   });
   /*
