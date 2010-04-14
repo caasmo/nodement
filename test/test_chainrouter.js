@@ -82,14 +82,14 @@ function pf(ndt){
 
 function f( ndt){
   //sys.puts(sys.inspect(ndt.__proto__));
-
+   sys.puts("f called:");
   ndt.session.set("yo", "guay", function(err, reply){
     if(err) {
       ndt.next("errorRoute");
       return;
     }
     sys.puts("f callback called");
-    ndt.response.body += ndt.response.id + " f\n";
+    ndt.body += ndt.id + " f\n";
     ndt.next();
   });
 
