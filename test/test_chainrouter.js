@@ -1,5 +1,4 @@
 var sys = require("sys");
-var response = require("response");
 var ndmt = require("nodement").nodement();
 var session = require("session");
 
